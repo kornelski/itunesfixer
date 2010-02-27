@@ -1,13 +1,15 @@
 
 
 #import "iTunesFixer.h"
-#import "FindTrack.h"
+#import "FindTrackViaSpotlight.h"
 #import "UpdateTrack.h"
 
 
 NSString *const iTunesFixerProgressNotification = @"iTunesFixerProgress";
 
 @implementation iTunesFixer 
+
+@synthesize spotlightSearch, pathReplacement, lostFiles, foundFiles;
 
 inline static double estimate(const double filesMissing, const double filesChecked, const double filesTotal, const double fudge1, const double fudge2)
 {
@@ -34,8 +36,11 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	if (self = [super init]) {
 		library = lib;
 		
-		spotlightQueue = [NSOperationQueue new];
-		[spotlightQueue setMaxConcurrentOperationCount:1]; // not strictly necessary, but might avoid trashing
+		fixDeadTracksQueue = [NSOperationQueue new];
+		[fixDeadTracksQueue setMaxConcurrentOperationCount:1]; // not strictly necessary, but might avoid trashing
+      self.lostFiles = [NSMutableDictionary new];
+      self.foundFiles = [NSMutableDictionary new];
+      prc = [pathReplacementController new];
 	}
 	return self;
 }
@@ -123,24 +128,34 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	return t;
 }
 
--(void)waitForEnd {
+-(void)waitForSpotlightToEnd {
 	
 	//NSLog(@"Adding finished");
 	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
 	
 	[queue waitUntilAllOperationsAreFinished];
-	[spotlightQueue setSuspended:NO];
+	[fixDeadTracksQueue setSuspended:NO];
 
 	//NSLog(@"Scanning finished");
 	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
 		
-	[spotlightQueue waitUntilAllOperationsAreFinished];
+	[fixDeadTracksQueue waitUntilAllOperationsAreFinished];
 	//NSLog(@"Spotlight finished");
 	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
 
-	[library waitForUpdates];
-	NSLog(@"Library update finished");	
-	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
+   if (pathReplacement) {
+
+      [prc setFixer:self];
+      //[lostFiles sortUsingSelector:NSOrderedAscending];
+      [prc setLostFiles:[self lostFiles]];
+      [prc setFoundFiles:[self foundFiles]];
+      [prc reloadTableData];
+      [prc showWindow:nil];
+   } else {
+      [library waitForUpdates];
+      NSLog(@"Library update finished");	
+      [self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
+   }
 }
 
 -(NSString*)lastFile {
@@ -157,7 +172,7 @@ inline static double estimate(const double filesMissing, const double filesCheck
 
 -(void)abort {
 	aborted = YES;
-	[spotlightQueue cancelAllOperations];
+	[fixDeadTracksQueue cancelAllOperations];
 	[queue cancelAllOperations];
 	[library abort];
 }
@@ -174,7 +189,7 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	filesTotal = 0;
 	lastFile = [[NSFileManager defaultManager] displayNameAtPath:[library libraryPath]];
 	
-	if (!isSSD) [spotlightQueue setSuspended:YES]; // avoid spotlight and scanning at the same time
+	if (!isSSD) [fixDeadTracksQueue setSuspended:YES]; // avoid spotlight and scanning at the same time
 
 	NSDictionary *tracks = [library tracksDictionary];
 	
@@ -205,7 +220,7 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	
 	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
 	
-	[self performSelectorInBackground:@selector(waitForEnd) withObject:queue];
+	[self performSelectorInBackground:@selector(waitForSpotlightToEnd) withObject:queue];
 }
 
 -(void)fixTrack:(NSDictionary *)trackInfo {
@@ -228,11 +243,27 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	}
 	
 	if (!exists)
-	{		
-		FindTrack *findTrack = [[FindTrack alloc] initWithDictionary:trackInfo path:filepath];
-		findTrack.delegate = self;
-		
-		[spotlightQueue addOperation:findTrack];
+	{	
+      if ([self spotlightSearch]) {
+         FindTrackViaSpotlight *findTrack = [[FindTrackViaSpotlight alloc] initWithDictionary:trackInfo path:filepath];
+         findTrack.delegate = self;
+         
+         [fixDeadTracksQueue addOperation:findTrack];
+      } else if ([self pathReplacement]) {
+         @synchronized(self) {
+            [lostFiles setObject: trackInfo forKey:filepath];
+         }
+      } else {
+         //Apparently they don't want to do either, maybe just want a count?
+      
+      }
+	}
+}
+
+-(void)didNotFindTrackViaSpotlight:(NSDictionary*)trackInfo atPath:(NSString*)filepath {
+	@synchronized(self) {
+      [lostFiles setObject: trackInfo forKey:filepath];
+		if (!filesUpdated) lastFile = [trackInfo objectForKey:@"Name"];
 	}
 }
 
@@ -251,6 +282,30 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	}
 }
 
+- (void) pathReplacementSelectionFinished {
+   filesSearched = filesMissing;
+   
+   
+   for (NSString * path in foundFiles) {
+      [self foundTrack:[foundFiles objectForKey:path] atPath:path];
+   }
+
+   [self performSelectorInBackground:@selector(finishAfterPathReplacement) withObject:nil];
+}
+
+-(void) finishAfterPathReplacement
+{
+   [library waitForUpdates];
+   NSLog(@"Library update finished");	
+   [self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
+}
+
+- (void) cancelledPathReplacement
+{
+   [library waitForUpdates];
+   NSLog(@"Library update finished");	
+   [self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
+}
 
 -(void)trackUpdated:(NSNotification *)note {
 	//NSLog(@"Received notification %@",note);
@@ -262,4 +317,5 @@ inline static double estimate(const double filesMissing, const double filesCheck
 	}
 	[self performSelectorOnMainThread:@selector(notifyProgress) withObject:nil waitUntilDone:NO];
 }
+
 @end
