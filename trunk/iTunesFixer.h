@@ -9,25 +9,35 @@
 #import <Cocoa/Cocoa.h>
 
 #import "iTunesLibrary.h"
-#import "FindTrack.h"
+#import "FindTrackViaSpotlight.h"
+#import "pathReplacementController.h"
 
 typedef struct fixerProgressInfo {
 	double total;
 	int filesChecked, filesAdded;
 	int filesMissing, filesSearched;
 	int filesFound,filesUpdated;
+
 } fixerProgressInfo;
 
-@interface iTunesFixer : NSObject <FindTrackDelegate> {
+@class pathReplacementController;
+
+@interface iTunesFixer : NSObject <FindTrackViaSpotlightDelegate> {
 	iTunesLibrary *library;
 	
 	NSUInteger filesTotal, filesAdded, filesChecked, filesMissing, filesSearched, filesFound, filesUpdated;
 	
-	NSOperationQueue *spotlightQueue, *queue;
+	NSOperationQueue *fixDeadTracksQueue, *queue;
 	
 	NSString *lastFile;
 	
 	BOOL isSSD, aborted;
+   pathReplacementController * prc;
+   NSMutableDictionary * lostFiles;
+   NSMutableDictionary * foundFiles;
+   BOOL spotlightSearch;
+   BOOL pathReplacement;
+
 }
 
 -(void)abort;
@@ -44,6 +54,14 @@ typedef struct fixerProgressInfo {
 // search delegate
 -(void)foundTrack:(NSDictionary*)trackInfo atPath:(NSString*)filepath;
 -(void)searchFinished;
+@property (assign) BOOL spotlightSearch;
+@property (assign) BOOL pathReplacement;
+@property (retain) NSMutableDictionary * lostFiles;
+@property (retain) NSMutableDictionary *  foundFiles;
+-(void)didNotFindTrackViaSpotlight:(NSDictionary*)trackInfo atPath:(NSString*)filepath;
+-(void) pathReplacementSelectionFinished;
+- (void) cancelledPathReplacement;
+
 
 // library update
 -(void)trackUpdated:(NSNotification *)note;
