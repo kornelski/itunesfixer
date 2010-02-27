@@ -12,14 +12,16 @@
 
 @implementation iTunesFixerAppDelegate
 
-@synthesize window, progressbar, status, startStop;
+@synthesize window, progressbar, status, startStop, spotlightSearch, pathReplacement;
 
 -(void) updateProgress:(id)anything {
 	
 	fixerProgressInfo t = [fixer progress];
 	double progress = t.total;
 	
-	if (progress >= 1.0) {
+   
+   //NO Was added so we don't stop during testing
+	if (NO && progress >= 1.0) {
 		[self stopProgress];
 		return;
 	}
@@ -174,6 +176,8 @@
 	}
 }
 
+
+
 -(IBAction)startStop:(id)sender {
 
 	if (fixer)
@@ -195,7 +199,9 @@
 	fixer = [[iTunesFixer alloc] initWithLibrary:lib];
 	
 	[fixer optimizeForSSD:isSSD];
- 
+   [fixer setPathReplacement:[pathReplacement state] == NSOnState];
+   [fixer setSpotlightSearch:[spotlightSearch state] == NSOnState];
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProgress:) name:iTunesFixerProgressNotification object:fixer];
 	
 	timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(updateProgress:) userInfo:nil repeats:YES];
