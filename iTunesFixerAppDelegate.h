@@ -11,6 +11,8 @@
 
 @interface iTunesFixerAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
+   
+
 	NSProgressIndicator *progressbar;
 	NSTextField *status;
 	NSButton *startStop;
@@ -22,7 +24,9 @@
 	iTunesFixer *fixer;
 	
 	NSString *libraryPath;
-	
+   NSMenuItem * spotlightSearch;
+   NSMenuItem * pathReplacement;
+   	
 	BOOL isSSD;
 }
 
@@ -35,4 +39,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSProgressIndicator *progressbar;
 @property (assign) IBOutlet NSTextField *status;
+@property (assign) IBOutlet NSMenuItem *spotlightSearch;
+@property (assign) IBOutlet NSMenuItem *pathReplacement;
+
 @end
