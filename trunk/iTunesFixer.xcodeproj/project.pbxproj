@@ -24,6 +24,11 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		2430B5D3111E111A00870CE3 /* pathReplacement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2430B5D2111E111A00870CE3 /* pathReplacement.xib */; };
+		2430B5DA111E11AC00870CE3 /* pathReplacementController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2430B5D9111E11AC00870CE3 /* pathReplacementController.m */; };
+		244B7615111F962C00FB0573 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 244B7614111F962C00FB0573 /* AudioToolbox.framework */; };
+		244B76C2111FC02C00FB0573 /* FindTrackViaPathReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = 244B76C1111FC02C00FB0573 /* FindTrackViaPathReplacement.m */; };
+		244B76D1111FC3DF00FB0573 /* TrackFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 244B76D0111FC3DF00FB0573 /* TrackFunctions.m */; };
 		256AC3DA0F4B6AC300CF3369 /* iTunesFixerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* iTunesFixerAppDelegate.m */; };
 		5A0FF8B51103E0A00023BC7D /* Fixer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A0FF8B41103E0A00023BC7D /* Fixer.icns */; };
 		5A4584921107D08A0072FF1C /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 5A4584911107D08A0072FF1C /* dsa_pub.pem */; };
@@ -34,7 +39,7 @@
 		5A76FA35110227C800E93260 /* iTunesFixer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A76FA34110227C800E93260 /* iTunesFixer.m */; };
 		5A81C6431102749A00AD3B15 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A81C6421102749A00AD3B15 /* ScriptingBridge.framework */; };
 		5A81C76B110292A100AD3B15 /* iTunesLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81C76A110292A100AD3B15 /* iTunesLibrary.m */; };
-		5A81C8D41102AEF700AD3B15 /* FindTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81C8D31102AEF700AD3B15 /* FindTrack.m */; };
+		5A81C8D41102AEF700AD3B15 /* FindTrackViaSpotlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81C8D31102AEF700AD3B15 /* FindTrackViaSpotlight.m */; };
 		5A81C9CF1102C72900AD3B15 /* UpdateTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81C9CE1102C72900AD3B15 /* UpdateTrack.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -67,6 +72,14 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2430B5D2111E111A00870CE3 /* pathReplacement.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = pathReplacement.xib; sourceTree = "<group>"; };
+		2430B5D8111E11AC00870CE3 /* pathReplacementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathReplacementController.h; sourceTree = "<group>"; };
+		2430B5D9111E11AC00870CE3 /* pathReplacementController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pathReplacementController.m; sourceTree = "<group>"; };
+		244B7614111F962C00FB0573 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		244B76C0111FC02C00FB0573 /* FindTrackViaPathReplacement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindTrackViaPathReplacement.h; sourceTree = "<group>"; };
+		244B76C1111FC02C00FB0573 /* FindTrackViaPathReplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindTrackViaPathReplacement.m; sourceTree = "<group>"; };
+		244B76CF111FC3DF00FB0573 /* TrackFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackFunctions.h; sourceTree = "<group>"; };
+		244B76D0111FC3DF00FB0573 /* TrackFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackFunctions.m; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* iTunesFixerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunesFixerAppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* iTunesFixerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunesFixerAppDelegate.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,8 +99,8 @@
 		5A81C6421102749A00AD3B15 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		5A81C769110292A100AD3B15 /* iTunesLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunesLibrary.h; sourceTree = "<group>"; };
 		5A81C76A110292A100AD3B15 /* iTunesLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunesLibrary.m; sourceTree = "<group>"; };
-		5A81C8D21102AEF700AD3B15 /* FindTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindTrack.h; sourceTree = "<group>"; };
-		5A81C8D31102AEF700AD3B15 /* FindTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindTrack.m; sourceTree = "<group>"; };
+		5A81C8D21102AEF700AD3B15 /* FindTrackViaSpotlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindTrackViaSpotlight.h; sourceTree = "<group>"; };
+		5A81C8D31102AEF700AD3B15 /* FindTrackViaSpotlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindTrackViaSpotlight.m; sourceTree = "<group>"; };
 		5A81C9CD1102C72900AD3B15 /* UpdateTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateTrack.h; sourceTree = "<group>"; };
 		5A81C9CE1102C72900AD3B15 /* UpdateTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateTrack.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iTunesFixer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTunesFixer-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.info-plist"; sourceTree = "<group>"; };
@@ -103,6 +116,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				5A81C6431102749A00AD3B15 /* ScriptingBridge.framework in Frameworks */,
 				5A5126FE1103A56F0087CE5B /* IOKit.framework in Frameworks */,
+				244B7615111F962C00FB0573 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,18 +126,24 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				256AC3D80F4B6AC300CF3369 /* iTunesFixerAppDelegate.h */,
+				2430B5D8111E11AC00870CE3 /* pathReplacementController.h */,
+				2430B5D9111E11AC00870CE3 /* pathReplacementController.m */,
 				5A81C9CD1102C72900AD3B15 /* UpdateTrack.h */,
 				5A81C9CE1102C72900AD3B15 /* UpdateTrack.m */,
-				5A81C8D21102AEF700AD3B15 /* FindTrack.h */,
-				5A81C8D31102AEF700AD3B15 /* FindTrack.m */,
+				244B76C0111FC02C00FB0573 /* FindTrackViaPathReplacement.h */,
+				244B76C1111FC02C00FB0573 /* FindTrackViaPathReplacement.m */,
+				5A81C8D21102AEF700AD3B15 /* FindTrackViaSpotlight.h */,
+				5A81C8D31102AEF700AD3B15 /* FindTrackViaSpotlight.m */,
 				5A81C769110292A100AD3B15 /* iTunesLibrary.h */,
 				5A81C76A110292A100AD3B15 /* iTunesLibrary.m */,
-				256AC3D80F4B6AC300CF3369 /* iTunesFixerAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* iTunesFixerAppDelegate.m */,
 				5A76FA33110227C800E93260 /* iTunesFixer.h */,
 				5A76FA34110227C800E93260 /* iTunesFixer.m */,
 				5A51281D1103BDD40087CE5B /* SSD.h */,
 				5A51281E1103BDD40087CE5B /* SSD.m */,
+				244B76CF111FC3DF00FB0573 /* TrackFunctions.h */,
+				244B76D0111FC3DF00FB0573 /* TrackFunctions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -136,6 +156,7 @@
 				5A5126F71103A5580087CE5B /* Kernel.framework */,
 				5A81C6421102749A00AD3B15 /* ScriptingBridge.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				244B7614111F962C00FB0573 /* AudioToolbox.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -185,6 +206,7 @@
 			children = (
 				5A4584911107D08A0072FF1C /* dsa_pub.pem */,
 				5A0FF8B41103E0A00023BC7D /* Fixer.icns */,
+				2430B5D2111E111A00870CE3 /* pathReplacement.xib */,
 				8D1107310486CEB800E47090 /* iTunesFixer-Info.plist */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 			);
@@ -248,6 +270,7 @@
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				5A0FF8B51103E0A00023BC7D /* Fixer.icns in Resources */,
 				5A4584921107D08A0072FF1C /* dsa_pub.pem in Resources */,
+				2430B5D3111E111A00870CE3 /* pathReplacement.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,9 +318,12 @@
 				256AC3DA0F4B6AC300CF3369 /* iTunesFixerAppDelegate.m in Sources */,
 				5A76FA35110227C800E93260 /* iTunesFixer.m in Sources */,
 				5A81C76B110292A100AD3B15 /* iTunesLibrary.m in Sources */,
-				5A81C8D41102AEF700AD3B15 /* FindTrack.m in Sources */,
+				5A81C8D41102AEF700AD3B15 /* FindTrackViaSpotlight.m in Sources */,
 				5A81C9CF1102C72900AD3B15 /* UpdateTrack.m in Sources */,
 				5A51281F1103BDD40087CE5B /* SSD.m in Sources */,
+				2430B5DA111E11AC00870CE3 /* pathReplacementController.m in Sources */,
+				244B76C2111FC02C00FB0573 /* FindTrackViaPathReplacement.m in Sources */,
+				244B76D1111FC3DF00FB0573 /* TrackFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +418,7 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -402,6 +429,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				SDKROOT = macosx10.6;
 				VALID_ARCHS = "i386 ppc x86_64";
 			};
@@ -418,6 +446,7 @@
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SYMBOL_SEPARATION = YES;
 				GCC_FAST_MATH = YES;
 				GCC_OBJC_CALL_CXX_CDTORS = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -431,6 +460,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx10.6;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
